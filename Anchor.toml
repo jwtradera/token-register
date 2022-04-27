@@ -1,0 +1,20 @@
+[features]
+seeds = false
+[programs.localnet]
+token_register = "4DHXD1JVCTYQnWVXpqG1HY9LbAocbsfQUbDqmK4qBB4o"
+
+[programs.devnet]
+token_register = "4DHXD1JVCTYQnWVXpqG1HY9LbAocbsfQUbDqmK4qBB4o"
+
+[programs.testnet]
+token_register = "4DHXD1JVCTYQnWVXpqG1HY9LbAocbsfQUbDqmK4qBB4o"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "devnet"
+wallet = "/home/john/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
