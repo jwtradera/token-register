@@ -152,4 +152,52 @@ describe("token-register", () => {
     console.log(tokenInfo.imageUri);
   });
 
+  it("Check authority", async () => {
+
+    const [pdaToken, pdaTokenBump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("token"), mint.publicKey.toBytes()], program.programId);
+
+    // Call update manager with wrong authority
+    try {
+      const tx = await provider.connection.confirmTransaction(
+        await program.rpc.updateManager(
+          pdaManagerBump,
+          updated_manager.publicKey,
+          {
+            accounts: {
+              managerAccount: pdaManager,
+              authority: manager.publicKey,
+            },
+            signers: [manager]
+          })
+      );
+    }
+    catch (ex) {
+      console.log(ex.error);
+    }
+
+    // Call update token with wrong authority
+    try {
+      const tx = await provider.connection.confirmTransaction(
+        await program.rpc.updateToken(
+          pdaManagerBump,
+          pdaTokenBump,
+          "Test Token 2",
+          "TKN2",
+          "https://test.com2",
+          {
+            accounts: {
+              managerAccount: pdaManager,
+              tokenAccount: pdaToken,
+              authority: manager.publicKey,
+              mint: mint.publicKey
+            },
+            signers: [manager]
+          })
+      );
+    }
+    catch (ex) {
+      console.log(ex.error);
+    }
+  });
+
 });
